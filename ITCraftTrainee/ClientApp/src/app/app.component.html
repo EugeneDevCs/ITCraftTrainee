@@ -1,0 +1,49 @@
+﻿
+
+<table *ngIf="tableMode; else popup" class="table table-striped">
+    
+    <thead>
+        <tr><td><h2>List</h2></td></tr>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Activity</td>
+            <td>Activity change</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let u of users">
+            <ng-template [ngIf]="user?.id != u.id" [ngIfElse]="edit">
+                <td>{{u?.id}}</td>
+                <td>{{u?.name}}</td>
+                <td>{{u?.active}}</td>
+                <td>
+                    <ng-template [ngIf]="u.active==false"><input (click)="changeActivity(u)" type="radio" /></ng-template>
+                    <ng-template [ngIf]="u.active==true"><input type="radio" (click)="changeActivity(u)" checked /></ng-template>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-danger" (click)="delete(u)">Удалить</button>
+                </td>
+            </ng-template>
+        </tr>
+
+    </tbody>
+    <input type="button" value="Total" class="btn btn-default" (click)="popupappear()" />
+</table>
+
+
+<ng-template #popup>
+    <div id="back">
+        <div id="box">
+            <h3>PopUp Title</h3>
+            <hr />
+            <br />
+            <h3>Total users: {{UsersCount}}</h3>
+            <br />
+            <h3>Active users: {{activeUsersCount}}</h3>
+            <br />
+            <input type="button" value="OK" (click)="closepopup()" />
+        </div>
+     </div>
+</ng-template>
+
