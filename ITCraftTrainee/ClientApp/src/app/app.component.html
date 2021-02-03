@@ -1,7 +1,7 @@
 ﻿
 
 <table *ngIf="tableMode; else popup" class="table table-striped">
-    
+
     <thead>
         <tr><td><h2>List</h2></td></tr>
         <tr>
@@ -33,7 +33,7 @@
 
 
 <ng-template #popup>
-    <div id="back">
+    <div class="">
         <div id="box">
             <h3>PopUp Title</h3>
             <hr />
@@ -44,6 +44,5 @@
             <br />
             <input type="button" value="OK" (click)="closepopup()" />
         </div>
-     </div>
+    </div>
 </ng-template>
-

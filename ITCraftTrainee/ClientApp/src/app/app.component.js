@@ -10,18 +10,18 @@ import { User } from './user';
 let AppComponent = class AppComponent {
     constructor(dataService) {
         this.dataService = dataService;
-        this.user = new User(); // изменяемый товар
-        this.tableMode = true; // табличный режим
+        this.user = new User();
+        this.tableMode = true;
+        this.activeUsersCount = 0;
+        this.UsersCount = 0;
     }
     ngOnInit() {
-        this.loadUsers(); // загрузка данных при старте компонента  
+        this.loadUsers();
     }
-    // получаем данные через сервис
     loadUsers() {
         this.dataService.getUsers()
             .subscribe((data) => this.users = data);
     }
-    // сохранение данных
     save() {
         if (this.user.id == null) {
             this.dataService.createUser(this.user)
@@ -33,8 +33,19 @@ let AppComponent = class AppComponent {
         }
         this.cancel();
     }
-    editUser(u) {
+    changeActivity(u) {
         this.user = u;
+        if (this.user.active == false) {
+            this.user.active = true;
+            this.dataService.updateUser(this.user)
+                .subscribe(data => this.loadUsers());
+        }
+        else {
+            this.user.active = false;
+            this.dataService.updateUser(this.user)
+                .subscribe(data => this.loadUsers());
+        }
+        this.cancel();
     }
     cancel() {
         this.user = new User();
@@ -44,9 +55,21 @@ let AppComponent = class AppComponent {
         this.dataService.deleteUser(u.id)
             .subscribe(data => this.loadUsers());
     }
-    add() {
+    popupappear() {
+        this.dataService.getUsers()
+            .subscribe((data) => this.users = data);
+        this.UsersCount = this.users.length;
+        for (let u of this.users) {
+            if (u.active == true)
+                this.activeUsersCount += 1;
+        }
         this.cancel();
         this.tableMode = false;
+    }
+    closepopup() {
+        this.activeUsersCount = 0;
+        this.cancel();
+        this.tableMode = true;
     }
 };
 AppComponent = __decorate([
