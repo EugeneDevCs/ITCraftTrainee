@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
     loadUsers() {
         this.dataService.getUsers()
             .subscribe((data: User[]) => this.users = data);
+        console.log('here')
     }
     save() {
         if (this.user.id == null) {
